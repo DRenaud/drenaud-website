@@ -4,12 +4,12 @@
     <meta name="robots" content="noindex">
     <script>
       window.addEventListener("message", function(event) {
-        var trustedDomains = ["ludistes-charentais.fr"]; 
+        var trustedDomains = ["https://ludistes-charentais.fr", 
+                              "https://www.ludistes-charentais.fr""]; 
         // On extrait le nom d'hôte de l'origine reçue (ex: https://www.site.fr -> site.fr)
-    var originHostname = event.origin.replace(/^https?:\/\/(www\.)?/, '');
 
     // On vérifie si l'hôte fait partie de notre liste
-    if (!trustedRoots.includes(originHostname)) return;
+    if (!trustedRoots.includes(event.origin)) return;
     
         if (event.data === "get_cid") {
           var match = document.cookie.match(/(?:\^|; )_ga=([^;]*)/);
