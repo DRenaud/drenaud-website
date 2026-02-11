@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      window.addEventListener("message", function(event) {
+        var trustedDomains = ["ludistes-charentais.fr"]; 
+        if (!trustedDomains.includes(event.origin)) return;
+    
+        if (event.data === "get_cid") {
+          var match = document.cookie.match(/(?:\^|; )_ga=([^;]*)/);
+          var fullCookie = match ? match[1] : null;
+          if (fullCookie) {
+              // On extrait la partie ID (ex: 12345.67890)
+              var cid = fullCookie.split('.').slice(-2).join('.');
+              event.source.postMessage({ type: "set_cid", cid: cid }, event.origin);
+          }
+        }
+      }, false);
+    </script>
+  </head>
+  <body></body>
+</html>
