@@ -3,24 +3,21 @@
   <head>
     <meta name="robots" content="noindex">
     <script>
-      window.addEventListener("message", function(event) {
-        var trustedDomains = ["https://ludistes-charentais.fr", 
-                              "https://www.ludistes-charentais.fr"]; 
-        // On extrait le nom d'hôte de l'origine reçue (ex: https://www.site.fr -> site.fr)
+window.addEventListener("message", function(event) {
+    // Affiche dans la console du hub pour voir si on reçoit l'appel
+    console.log("Hub : Message reçu de " + event.origin);
 
-    // On vérifie si l'hôte fait partie de notre liste
-    if (!trustedRoots.includes(event.origin)) return;
-    
-        if (event.data === "get_cid") {
-          var match = document.cookie.match(/(?:\^|; )_ga=([^;]*)/);
-          var fullCookie = match ? match[1] : null;
-          if (fullCookie) {
-              // On extrait la partie ID (ex: 12345.67890)
-              var cid = fullCookie.split('.').slice(-2).join('.');
-              event.source.postMessage({ type: "set_cid", cid: cid }, event.origin);
-          }
-        }
-      }, false);
+    if (event.data === "get_cid") {
+      var match = document.cookie.match(/(?:\^|; )_ga=([^;]*)/);
+      if (match) {
+        var cid = match[1].split('.').slice(-2).join('.');
+        console.log("Hub : CID trouvé, envoi de " + cid);
+        // On renvoie à l'origine qui a appelé
+        event.source.postMessage({ type: "set_cid", cid: cid }, "*");
+      }
+    }
+  }, false);
+</script>
     </script>
   </head>
   <body></body>
