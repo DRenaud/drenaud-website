@@ -11,12 +11,16 @@ window.addEventListener("message", function(event) {
     console.log("Hub : Message reçu de " + event.origin);
 
     if (event.data === "get_last_visit") {
-      var match = document.cookie.match(/(?:\^|; )last_drenaud_visit=([^;]*)/);
+
+      
+      var match = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('last_drenaud_visit='))
+                    ?.split('=')[1];
       if (match) {
-        var dateString = match[1];
-        console.log("Hub : LAST DATE trouvé, envoi de " + dateString);
+        console.log("Hub : LAST DATE trouvé, envoi de " + match);
         // On renvoie à l'origine qui a appelé
-        event.source.postMessage({ type: "set_last_visit", last_visit: dateString }, "*");
+        event.source.postMessage({ type: "set_last_visit", last_visit: match }, "*");
       }
     }
   }, false);
