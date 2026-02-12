@@ -10,13 +10,13 @@ window.addEventListener("message", function(event) {
     // Affiche dans la console du hub pour voir si on reçoit l'appel
     console.log("Hub : Message reçu de " + event.origin);
 
-    if (event.data === "get_cid") {
-      var match = document.cookie.match(/(?:\^|; )_ga=([^;]*)/);
+    if (event.data === "get_last_visit") {
+      var match = document.cookie.match(/(?:\^|; )last_drenaud_visit=([^;]*)/);
       if (match) {
-        var cid = match[1].split('.').slice(-2).join('.');
-        console.log("Hub : CID trouvé, envoi de " + cid);
+        var dateString = match[1];
+        console.log("Hub : LAST DATE trouvé, envoi de " + dateString);
         // On renvoie à l'origine qui a appelé
-        event.source.postMessage({ type: "set_cid", cid: cid }, "*");
+        event.source.postMessage({ type: "set_last_visit", last_visit: dateString }, "*");
       }
     }
   }, false);
