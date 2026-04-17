@@ -1,0 +1,12 @@
+{
+  "name": "drenaud-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal website for Damien Renaud.",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.3"
+  }
+}
